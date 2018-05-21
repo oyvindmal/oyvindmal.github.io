@@ -24,6 +24,9 @@
 #currentProgr
 {
   font-size:1.4em;
+  position: absolute;
+  bottom: 2;
+  right:35;
 }
 #currentElo
 {
@@ -42,4 +45,29 @@
 .equal
 {
   color: yellow;
+}
+
+#icon
+{
+    width:30px;
+    height:30px;
+   
+    position: absolute;
+    bottom: 2; 
+    right: 2;
+}
+
+.iconEqual
+{
+    background:url(equal.png);
+}
+
+.iconPositive
+{
+    background:url(arrow_up.png);
+}
+
+.iconNegative
+{
+    background:url(arrow_down.png);
 }
