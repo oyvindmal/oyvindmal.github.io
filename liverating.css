@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed');
+#widget
+{
+  border: 1px #000 solid;
+  width:300px;
+  background: #20262e;
+  padding: 10px;
+
+  font-family: 'Roboto Condensed', sans-serif;
+  color: #fff;
+  position: relative;
+}
+
+#widget h1
+{
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+}
+
+#currentMode{
+  text-transform: uppercase;
+}
+
+#currentProgr
+{
+  font-size:1.4em;
+}
+#currentElo
+{
+  font-size:2.0em;
+}
+.positive 
+{
+  color: green;
+}
+
+.negative
+{
+  color: red;
+}
+
+.equal
+{
+  color: yellow;
+}
