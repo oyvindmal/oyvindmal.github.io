@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8">
+  <title>Sanity MovieDB frontend demo</title>
+  <!--link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" -->
+
+</html>
+<body>
+
+<div id="posts">
+
+</div>
+
+<script src="https://unpkg.com/@sanity/client@latest?main=umd"></script>
+
+<script>
+
+var pid = '861lwnlb'
+var env = 'production';
+// If you drop the UMD bundle into a page, we attach to `window` as `SanityClient`.
+// In node, or when using a bundler, you'd use `require('@sanity/client')`
+var client = window.SanityClient({
+  // Find your project ID and dataset in `sanity.json` in your studio project
+  projectId: pid,
+  dataset: env
+})
+
+
+
+// Fetch 50 documents of type `movie`, and select only the fields we need
+var query = `
+  *[_type == "post"]{
+    title,
+    "mainImageURL": mainImage.asset->url,
+    mainImage,
+    galleryImages
+  } [0...50]  | order(publishedAt desc) `
+
+client
+  .fetch(query)
+  .then(renderPosts)
+  .catch(renderError)
+
+// What follows isn't related to Sanity - just no-framework rendering logic
+// Obviously, use whatever framework makes you happy!
+var container = document.querySelector('#posts')
+
+function renderPosts(posts)
+{
+    posts.map(function(post) {
+    container.appendChild(createPostRow(post))
+  })
+}
+
+function createPostRow(post)
+{
+    //console.log(post);
+    //console.log(post.mainImage);
+    //console.log(post.mainImageURL);
+    console.log(post);
+    return createElement("div","post",[
+        createElement("h1", "", [text(post.title)]),
+        createElement("div", "postImage", [createFrontImage(post.mainImageURL)]),
+        createGallery(post.galleryImages)
+    ]);
+}
+
+
+function createFrontImage(poster) {
+  var img = createElement('img')
+  img.className = 'poster'
+  img.src = poster + '?h=500'
+  return img
+}
+function createGalleryImage(galleryImage) {
+  var img = createElement('img')
+  img.className = 'galleryImage'
+  img.src = galleryImage + '?w=500'
+  return img
+}
+
+function createGallery(images)
+{
+    var children = [];
+    //console.log(images);
+    var heading = createElement("h2", "", [text("Galleri")]);
+    children.push(heading);
+   images.forEach(function (element)
+    {
+        console.log(element);
+        var stuff = [];
+        stuff.push(createElement("h3", "", [text(element.title)]));
+        var url = "https://cdn.sanity.io/images/";
+        var ref = element.image.asset._ref;
+        var removeImage = ref.replace("image-", "");
+        var fixedref = removeImage.replace("-jpg", ".jpg");
+        url += pid + "/" + env + "/" + fixedref;
+        stuff.push(createGalleryImage(url));
+        stuff.push(createElement("p", "", [text(element.description)]));
+        stuff.forEach(function(el){
+            children.push(el);
+        })
+       // children.push(createGalleryImage(url));
+    }) 
+
+    //console.log(children);
+
+   // return createElement("p", "", [text("lol")]);
+    return createElement("div", "gallery", children);
+}
+function createElement(tag, cssclass, childNodes) {
+  var el = document.createElement(tag)
+  el.className = cssclass
+  var children = childNodes || []
+  children.forEach(function (child) {
+    el.appendChild(child)
+  })
+  return el
+}
+
+function renderError(err) {
+  /*const errorBox = createElement('pre', [text(err.message)])
+  errorBox.className = 'error'
+
+  document.body.replaceChild(
+    errorBox,
+    container.parentNode
+  )*/
+
+  console.log(err);
+}
+
+function text(str) {
+  return document.createTextNode(str)
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+body
+{
+    background: #1c1a19;
+    color: #FFF;
+}
+
+h1{
+    text-align:center; 
+    width: 100%;
+}
+
+.clockdisplay
+{
+    text-align:center;
+    font-family: 'Press Start 2P', cursive;
+    font-size:4em;
+}

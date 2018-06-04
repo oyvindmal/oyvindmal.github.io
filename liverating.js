@@ -8,8 +8,10 @@ $(document).ready(function () {
   //config
   var mode = "blitz";
   var username = "oyvindmal";
-
-  setInterval(getLiveRating(username), 30000);
+  getLiveRating(username);
+  setInterval(function() {
+    getLiveRating(username)
+  }, 30000);
   
  
     $("#currentMode").text(mode);
